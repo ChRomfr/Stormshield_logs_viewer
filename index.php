@@ -1,0 +1,95 @@
+<?php
+/**
+ *	LOG INTERNET
+ *	@author Romain DROUCHE
+ *	@link http://www.sharkphp.com
+ */
+
+# Debut chrono page
+$chrono1 = microtime(true);
+
+# Definition des constantes
+define('IN_VA', TRUE);
+define('ROOT_PATH', str_replace('index.php','',__FILE__));
+define('DS', DIRECTORY_SEPARATOR); 
+define('APP_PATH', ROOT_PATH . 'app' . DS);
+define('CACHE_PATH', ROOT_PATH . 'cache' . DS);
+define('VIEW_PATH', ROOT_PATH . 'app' . DS . 'view' . DS);
+define('CONTROLLER_PATH', ROOT_PATH . 'app' . DS . 'controller' . DS);
+define('MODEL_PATH', ROOT_PATH . 'app' . DS . 'model' . DS);
+define('LOG_ACCESS', false);	# Permet de logge tout les requetes HTTP et de le enregistre dans un fichier
+define('USE_TABLE_CONFIG',false);
+
+//Chemin des sessions
+session_save_path(ROOT_PATH . 'cache' . DS . '_sessions');
+
+// Appel du noyau
+require_once ROOT_PATH . 'kernel' . DS . 'core'. DS . 'core.php';
+
+// Param & script specifique a l'application
+require 'app.php';
+
+# Envoie du JS & CSS
+$jquery_theme = 'overcast';
+$registry->load_web_lib('jquery/jquery-1.11.0.min.js','js');
+$registry->load_web_lib('jquery/jquery-migrate-1.2.1.min.js','js');
+//$registry->addCSS($jquery_theme . '/jquery-ui-last.custom.min.css');
+
+// Lib js
+//$registry->load_web_lib('jquery-ui/jquery-ui-last.custom.min.js','js','footer'); 
+//$registry->load_web_lib('mustache.js','js','footer');
+//$registry->load_web_lib('jquery.maskedinput.min.js','js','footer');
+// Tablesorter
+//$registry->load_web_lib('tablesorter/jquery.tablesorter.min.js','js');
+//$registry->load_web_lib('tablesorter/jquery.tablesorter.pager.js','js');
+// Chosen
+//$registry->load_web_lib('chosen/chosen.jquery.min.js','js');
+//$registry->load_web_lib('chosen/chosen.css','css');
+
+# Difinition des chemins des applications par ordre d appel
+$registry->router->setPath(array(ROOT_PATH . 'MyApp' . DS . 'controller' .DS,  ROOT_PATH . 'app' . DS . 'controller' .DS) );
+
+# Execution de la requete et recuperation du resultat
+$Content = $registry->router->loader();
+
+$registry->smarty->assign('App',$registry);
+
+if( !$registry->HTTPRequest->getExists('nohtml') && !$registry->HTTPRequest->getExists('print') && $ajax_query == false ):
+
+	if( IN_PRODUCTION === false ){
+		require_once 'dvlp_mod.php';
+	}
+    
+    //$BlocGauche = $registry->getBlok('left');
+    
+	# Affichage du resultat dans le template
+	$registry->smarty->assign(array(
+		'blokTop'		=>	''/*$registry->getBlok('top')*/,
+		'blokGauche'	=>	''/*$BlocGauche*/,
+		'blokFoot'		=>	''/*$registry->getBlok('foot')*/,
+		'css_add'		=>	registry::$css,
+		'js_add'		=>	registry::$js,		
+		'registry'		=>	$registry,
+		'content'		=>	$Content,
+	));
+
+
+	if( !IN_PRODUCTION ){
+		$registry->smarty->assign('dvlp_tps_generation', round( microtime(true) - $chrono1, 6));
+		$registry->smarty->assign('dvlp_memory', round(memory_get_usage() / (1024*1024),2));
+		$registry->smarty->assign('dvlp_nb_queries', $db->num_queries);
+	}
+
+	// Generation de la page avec le layout du theme
+	echo $registry->smarty->display(ROOT_PATH . 'themes' . DS . $config->config['theme'] . DS . 'layout.tpl');
+
+elseif( $registry->HTTPRequest->getExists('print') && !$registry->HTTPRequest->getExists('nohtml')):
+	# Affichage specifique pour les impressions
+	$registry->smarty->assign('css_add', registry::$css);
+	$registry->smarty->assign('js_add', registry::$js);
+	$registry->smarty->assign('content', $Content);
+	echo $registry->smarty->display(ROOT_PATH . 'themes' . DS . $config->config['theme'] . DS . 'layout_print.tpl');	
+else:
+	# Affichage du resultat seul sans code HTML AJAX
+	echo $Content;
+endif;

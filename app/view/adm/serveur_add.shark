@@ -1,0 +1,104 @@
+{* app/view/adm/serveur_edit.shark *}
+<ul class="breadcrumb">
+	<li><a href="{$Helper->getLink("index")}" title="Accueil">Accueil</a><span class="divider">&gt;&gt;</span></li>
+	<li><a href="{$Helper->getLink("adm")}" title="Administration">Administration</a><span class="divider">&gt;&gt;</span></li>
+	<li><a href="{$Helper->getLink("adm/serveur_liste")}" title="Listes des serveurs proxy">Serveurs</a><span class="divider">&gt;&gt;</span></li>
+	<li>Nouveau serveur</li>
+</ul>
+
+<div class="well">
+	
+	<h3>Ajout serveur proxy</h3>
+	
+	<form id="serveur_edit" method="post" action="" class="form-horizontal">
+	
+		<div class="control-group">
+			<label class="control-label">Serveur :</label>
+			<div class="controls">
+				<input type="text" name="serveur[name]" id="serveur_name" required />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">IP :</label>
+			<div class="controls">
+				<input type="text" name="serveur[serveur_ip]" id="serveur_ip" required />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Port :</label>
+			<div class="controls">
+				<input type="text" name="serveur[serveur_port]" id="serveur_port" required />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Utilisateur :</label>
+			<div class="controls">
+				<input type="text" name="serveur[serveur_user]" id="serveur_user" required />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Mot de passe :</label>
+			<div class="controls">
+				<input type="text" name="serveur[serveur_password]" id="serveur_password" required />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Log squid :</label>
+			<div class="controls">
+				<select name="serveur[log_squid]" id="log_squid" required>
+					<option value="1">Oui</option>
+					<option value="0">Non</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Log squidguard :</label>
+			<div class="controls">
+				<select name="serveur[log_squidguard]" id="log_squidguard" required>
+					<option value="1">Oui</option>
+					<option value="0">Non</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Chemin d'accès au log squid :</label>
+			<div class="controls">
+				<input type="text" name="serveur[dir_log_squid]" id="serveur_dir_log_squid" />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Chemin d'accès au log squidguard :</label>
+			<div class="controls">
+				<input type="text" name="serveur[dir_log_squidlog]" id="serveur_dir_log_squidlog" />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">Executer les commande en <strong>sudo</strong> :</label>
+			<div class="controls">
+				<select name="serveur[sudo]" id="sudo" required>
+					<option value="1">Oui</option>
+					<option value="0">Non</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-actions">
+			<button class="btn btn-primary">Enregistrer</button>
+			&nbsp;&nbsp;
+			<a href="" class="btn btn-danger">Annuler</a>
+		</div>
+		
+		
+		
+	</form>
+	
+</div>

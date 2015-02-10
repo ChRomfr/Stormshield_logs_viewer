@@ -1,0 +1,30 @@
+@font-face{
+  font-family: 'Source Sans Pro';
+  src: url('police/SourceSansPro-Regular.ttf') format('truetype');
+}
+
+@font-face{
+  font-family: 'OpenSans';
+  src: url('police/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face{
+  font-family: 'Share';
+  src: url('police/Share-Regular.oet');
+  src:  url('police/Share-Regular.oet?#iefix') format('embedded-opentyp'),
+        url('police/Share-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: OpenSans,Share,"Source Sans Pro", Helvetica,sans-serif;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.badge, .label{  font-family: sans-serif; }
+.jumbotron, .navbar{ font-family: Share, sans-serif; }
+
+.thead-fixed thead{display: block;}
+.thead-fixed tbody{display: block; overflow-y:scroll;}

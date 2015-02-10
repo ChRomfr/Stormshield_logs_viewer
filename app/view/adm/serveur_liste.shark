@@ -1,0 +1,46 @@
+{* app/view/adm/serveur_liste.shark *}
+<ul class="breadcrumb">
+	<li><a href="{$Helper->getLink("index")}" title="Accueil">Accueil</a><span class="divider">&gt;&gt;</span></li>
+	<li><a href="{$Helper->getLink("adm")}" title="Administration">Administration</a><span class="divider">&gt;&gt;</span></li>
+	<li>Serveurs</li>
+</ul>
+
+<div class="well">
+	<h4>Liste des serveurs proxy</h4>
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Serveur</th>
+				<th>IP</th>
+				<th>Port</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{foreach $servers as $server}
+			<tr>
+				<td>{$server.name}</td>
+				<td>{$server.serveur_ip}</td>
+				<td>{$server.serveur_port}</td>
+				<td>
+					<a href="{$Helper->getLink("adm/serveur_edit/{$server.id}")}" title=""><i class="icon icon-edit"></i></a>
+					&nbsp;&nbsp;
+					<a href="javascript:delete_serveur({$server.id}, '{$server.name}')" title=""><i class="icon icon-trash"></i></a>
+				</td>
+			</tr>
+			{/foreach}		
+		</tbody>
+	</table>
+	
+</div>
+
+<script type="text/javascript">
+<!--
+function delete_serveur(sid, server){
+	if(confirm('Etes vous sur de vouloir supprimer ce serveur : '+ server + '?')){
+		window.location.href = '{$Helper->getLink("adm/serveur_delete/'+sid+'")}';
+	}
+}
+//-->
+</script>
